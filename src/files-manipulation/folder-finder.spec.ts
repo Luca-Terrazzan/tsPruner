@@ -14,9 +14,13 @@ describe('Folder finder', () => {
     outputFileSync(`${fixtureBasePath}/test2.txt`, 'data');
   });
 
-  it('Should provide a folder contents', () => {
+  it('Should read a folder content', () => {
     const ff: FolderFinder = new FolderFinder();
-    expect(ff.openFolder(`${fixtureBasePath}`)).toBeDefined();
+    const fileList: string[] = ff.openFolder(fixtureBasePath);
+
+    const expectedResult = ['test.txt', 'test1.txt', 'test2.txt'];
+
+    expect(fileList).toEqual(expectedResult);
   });
 
   afterAll(() => {
