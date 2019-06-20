@@ -1,5 +1,6 @@
 import { FolderFinder } from './folder-finder';
 import { outputFileSync, removeSync } from 'fs-extra';
+import { Logger } from '../logging/logger';
 
 describe('Folder finder', () => {
 
@@ -16,9 +17,8 @@ describe('Folder finder', () => {
   });
 
   it('Should read a folder content', () => {
-    const ff: FolderFinder = new FolderFinder();
+    const ff: FolderFinder = new FolderFinder(new Logger());
     const fileList: string[] = ff.openFolder(fixtureBasePath);
-
     const expectedResult = ['inner', 'test.txt', 'test1.txt', 'test2.txt'];
 
     expect(fileList).toEqual(expectedResult);
