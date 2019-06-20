@@ -60,5 +60,8 @@ typings/
 # next.js build output
 .next
 
+# Visual Studio Code settings
+.vscode
+
 # Compiled
 dist
