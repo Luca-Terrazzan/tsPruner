@@ -1,0 +1,22 @@
+{
+  "name": "tspruner",
+  "version": "1.0.0",
+  "description": "Typescript folde files pruner",
+  "main": "dist/main.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Luca-Terrazzan/tsPruner.git"
+  },
+  "author": "luca.terraz@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Luca-Terrazzan/tsPruner/issues"
+  },
+  "homepage": "https://github.com/Luca-Terrazzan/tsPruner#readme",
+  "dependencies": {
+    "typescript": "^3.5.2"
+  }
+}
