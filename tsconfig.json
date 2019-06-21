@@ -1,10 +1,6 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "ESNext",
-    "types": [
-      "reflect-metadata"
-    ],
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "dist",
