@@ -28,7 +28,7 @@ export class Logger {
    * @memberof Logger
    */
   private log(logLevel: LogLevels, ...message: any[]) {
-    console.log(message);
+    console.log(logLevel, message);
   }
 
 }
