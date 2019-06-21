@@ -11,7 +11,7 @@ export class FolderFinder {
     try {
       folderContent = readdirSync(folderPath);
     } catch (e) {
-      console.log('error while reading file:', e);
+      this.logger.error('error while reading file: ', e);
     }
 
     return folderContent;
