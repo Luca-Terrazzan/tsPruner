@@ -1,24 +1,33 @@
 import { LogLevels } from './log-levels.enum';
 
+// tslint:disable: no-any
 export class Logger {
 
-  public info(message: string) {
-    this.log(message, LogLevels.INFO);
+  public info(...message: any[]) {
+    this.log(LogLevels.INFO, message);
   }
 
-  public debug(message: string) {
-    this.log(message, LogLevels.DEBUG);
+  public debug(...message: any[]) {
+    this.log(LogLevels.DEBUG, message);
   }
 
-  public warning(message: string) {
-    this.log(message, LogLevels.WARNING);
+  public warning(...message: any[]) {
+    this.log(LogLevels.WARNING, message);
   }
 
-  public error(message: string) {
-    this.log(message, LogLevels.ERROR);
+  public error(...message: any[]) {
+    this.log(LogLevels.ERROR, message);
   }
 
-  private log(message: string, logLevel: LogLevels) {
+  /**
+   * TODO: implement different logging methods to console/file
+   *
+   * @private
+   * @param {LogLevels} logLevel
+   * @param {...any[]} message
+   * @memberof Logger
+   */
+  private log(logLevel: LogLevels, ...message: any[]) {
     console.log(message);
   }
 
