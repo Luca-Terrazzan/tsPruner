@@ -1,6 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
+    "experimentalDecorators": true,
     "outDir": "dist",
     "noImplicitAny" : true,
     "strictNullChecks": false
