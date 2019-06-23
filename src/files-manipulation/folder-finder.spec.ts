@@ -4,7 +4,7 @@ import { Logger } from '../logging/logger';
 
 describe('Folder finder', () => {
 
-  const fixtureBasePath = './fixture';
+  const fixtureBasePath = './ff-fixture';
 
   beforeAll(() => {
     // Setup fixtures
