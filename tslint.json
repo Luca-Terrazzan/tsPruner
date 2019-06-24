@@ -9,7 +9,7 @@
     "await-promise": true,
     "class-name": true,
     "curly": true,
-    "cyclomatic-complexity": [true, 4],
+    "cyclomatic-complexity": [true, 6],
     "import-spacing": true,
     "indent": [true, "spaces"],
     "interface-name": [true],
