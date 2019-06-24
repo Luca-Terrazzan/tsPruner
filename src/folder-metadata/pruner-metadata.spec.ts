@@ -8,23 +8,29 @@ describe('Pruner metadata', () => {
 
   const fixtureBasePath = './pm-fixture';
 
-  beforeAll(() => {
-    // Setup fixtures
-
-    // Create a folder with random files
-    outputFileSync(`${fixtureBasePath}/${metadataFileName}`, '{"filses": [1,2,3]}');
-  });
-
   it('Should be able to read pruner metadata', () => {
+    // Create a valid metadata file
+    outputFileSync(
+      `${fixtureBasePath}/${metadataFileName}`,
+      `{"files": [
+        {"fileName": "file1.txt", "timestamp": 1000},
+        {"fileName": "file2.txt", "timestamp": 1001}
+        ], "timestamp": 999}`
+    );
+
     const logger = Logger.getInstance();
     const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
     const metadata = pm.getFolderMetadata();
 
     const expectedFolderMetadata: FolderMetadata = {
-      files
+      files: [
+        {fileName: 'file1.txt', timestamp: 1000},
+        {fileName: 'file2.txt', timestamp: 1001}
+      ],
+      timestamp: 999
     };
 
-    expect(metadata).toBeDefined();
+    expect(metadata).toEqual(expectedFolderMetadata);
   });
 
   afterAll(() => {
