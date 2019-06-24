@@ -6,32 +6,32 @@ import { FolderMetadata } from './folder-metadata.type';
 
 describe('Pruner metadata', () => {
 
-    const fixtureBasePath = './pm-fixture';
+  const fixtureBasePath = './pm-fixture';
 
-    beforeAll(() => {
-        // Setup fixtures
+  beforeAll(() => {
+    // Setup fixtures
 
-        // Create a folder with random files
-        outputFileSync(`${fixtureBasePath}/${metadataFileName}`, '{"filses": [1,2,3]}');
-    });
+    // Create a folder with random files
+    outputFileSync(`${fixtureBasePath}/${metadataFileName}`, '{"filses": [1,2,3]}');
+  });
 
-    it('Should be able to read pruner metadata', () => {
-        const logger = Logger.getInstance();
-        const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
-        const metadata = pm.getFolderMetadata();
+  it('Should be able to read pruner metadata', () => {
+    const logger = Logger.getInstance();
+    const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
+    const metadata = pm.getFolderMetadata();
 
-        const expectedFolderMetadata: FolderMetadata = {
-            files
-        };
+    const expectedFolderMetadata: FolderMetadata = {
+      files
+    };
 
-        expect(metadata).toBeDefined();
-    });
+    expect(metadata).toBeDefined();
+  });
 
-    afterAll(() => {
-        // Remove fixtures
+  afterAll(() => {
+    // Remove fixtures
 
-        // Delete test folder
-        removeSync(fixtureBasePath);
-    });
+    // Delete test folder
+    removeSync(fixtureBasePath);
+  });
 
 });
