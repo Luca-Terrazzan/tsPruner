@@ -3,7 +3,7 @@ export type FolderMetadata = {
   timestamp: number
 };
 
-type FileMetadata = {
+export type FileMetadata = {
   fileName: string,
   timestamp: number
 };
