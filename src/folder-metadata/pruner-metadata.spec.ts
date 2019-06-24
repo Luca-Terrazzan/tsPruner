@@ -2,6 +2,7 @@ import { outputFileSync, removeSync } from 'fs-extra';
 import { PrunerMetadata, metadataFileName } from './pruner-metadata';
 import { FolderFinder } from '../files-manipulation/folder-finder';
 import { Logger } from '../logging/logger';
+import { FolderMetadata } from './folder-metadata.type';
 
 describe('Pruner metadata', () => {
 
@@ -15,8 +16,13 @@ describe('Pruner metadata', () => {
     });
 
     it('Should be able to read pruner metadata', () => {
-        const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(new Logger()));
-        const metadata = pm.loadMetadata();
+        const logger = Logger.getInstance();
+        const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
+        const metadata = pm.getFolderMetadata();
+
+        const expectedFolderMetadata: FolderMetadata = {
+            files
+        };
 
         expect(metadata).toBeDefined();
     });

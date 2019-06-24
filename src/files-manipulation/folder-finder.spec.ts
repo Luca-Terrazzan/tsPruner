@@ -5,6 +5,7 @@ import { Logger } from '../logging/logger';
 describe('Folder finder', () => {
 
   const fixtureBasePath = './ff-fixture';
+  const logger = Logger.getInstance();
 
   beforeAll(() => {
     // Setup fixtures
@@ -17,7 +18,7 @@ describe('Folder finder', () => {
   });
 
   it('Should be able to read a folder content', () => {
-    const ff: FolderFinder = new FolderFinder(new Logger());
+    const ff: FolderFinder = new FolderFinder(logger);
     const fileList: string[] = ff.openFolder(fixtureBasePath);
     const expectedResult = ['inner', 'test.txt', 'test1.txt', 'test2.txt'];
 
@@ -25,7 +26,7 @@ describe('Folder finder', () => {
   });
 
   it('Should be able to read a folder content while skipping subfolders', () => {
-    const ff: FolderFinder = new FolderFinder(new Logger());
+    const ff: FolderFinder = new FolderFinder(logger);
     const fileList: string[] = ff.openFolder(fixtureBasePath, true);
     const expectedResult = ['test.txt', 'test1.txt', 'test2.txt'];
 
