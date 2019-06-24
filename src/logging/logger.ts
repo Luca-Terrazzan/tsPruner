@@ -3,6 +3,17 @@ import { LogLevels } from './log-levels.enum';
 // tslint:disable: no-any
 export class Logger {
 
+  private static instance: Logger;
+
+  private constructor() {}
+
+  public static getInstance(): Logger {
+    if (!Logger.instance) {
+      Logger.instance = new Logger();
+    }
+    return Logger.instance;
+  }
+
   public info(...message: any[]) {
     this.log(LogLevels.INFO, message);
   }
