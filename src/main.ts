@@ -1,4 +1,5 @@
-@randomDecorator
-function testme(int: number){}
+console.log('starting app');
 
-Reflect.getMetadata('design:types', testme);
+module.exports = () => {
+  console.log('starting app');
+};
