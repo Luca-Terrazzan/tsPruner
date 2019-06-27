@@ -1,7 +1,12 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "es6",
+    "baseUrl": "./src",
+    "paths": {
+      "@finder/*": ["files-manipulation/*"],
+      "@metadata/*": ["folder-metadata/*"],
+      "@logger/*": ["logging/*"],
+    },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
