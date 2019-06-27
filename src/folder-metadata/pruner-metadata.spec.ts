@@ -1,9 +1,9 @@
+import { FolderFinder } from '@finder/folder-finder';
+import { Logger } from '@logger/logger';
 import { outputFileSync, removeSync } from 'fs-extra';
-import { PrunerMetadata, metadataFileName } from './pruner-metadata';
-import { FolderFinder } from '../files-manipulation/folder-finder';
-import { Logger } from '../logging/logger';
+import { InvalidMetadataException, MetadataNotFoundException } from './exceptions';
 import { FolderMetadata } from './folder-metadata.type';
-import { MetadataNotFoundException, InvalidMetadataException } from './exceptions';
+import { metadataFileName, PrunerMetadata } from './pruner-metadata';
 
 describe('Pruner metadata', () => {
 

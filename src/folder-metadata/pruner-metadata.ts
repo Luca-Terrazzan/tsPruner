@@ -1,8 +1,8 @@
-import { FolderMetadata, FileMetadata } from './folder-metadata.type';
+import { FolderFinder } from '@finder/folder-finder';
+import { Logger } from '@logger/logger';
 import { readJsonSync } from 'fs-extra';
-import { FolderFinder } from '../files-manipulation/folder-finder';
-import { MetadataNotFoundException, InvalidMetadataException } from './exceptions';
-import { Logger } from '../logging/logger';
+import { InvalidMetadataException, MetadataNotFoundException } from './exceptions';
+import { FileMetadata, FolderMetadata } from './folder-metadata.type';
 
 export const metadataFileName: string = 'prune-metadata.json';
 

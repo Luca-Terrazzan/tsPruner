@@ -1,5 +1,5 @@
-import { readdirSync, Dirent } from 'fs-extra';
-import { Logger } from '../logging/logger';
+import { Logger } from '@logger/logger';
+import { Dirent, readdirSync } from 'fs-extra';
 
 export class FolderFinder {
 

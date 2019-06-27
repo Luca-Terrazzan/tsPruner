@@ -1,6 +1,6 @@
-import { FolderFinder } from './folder-finder';
+import { Logger } from '@logger/logger';
 import { outputFileSync, removeSync } from 'fs-extra';
-import { Logger } from '../logging/logger';
+import { FolderFinder } from './folder-finder';
 
 describe('Folder finder', () => {
 
