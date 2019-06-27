@@ -34,10 +34,10 @@ export class PrunerMetadata {
     } catch (e) {
       if (e instanceof SyntaxError) {
         this.logger.error('Invalid metadata file found.');
-        throw new InvalidMetadataException();
+        throw new InvalidMetadataException('Invalid metadata file found.');
       }
       this.logger.error('Metadata file not found.');
-      throw new MetadataNotFoundException();
+      throw new MetadataNotFoundException('Metadata file not found.');
     }
     this.validateMetadataFile(folderMetadata);
 
