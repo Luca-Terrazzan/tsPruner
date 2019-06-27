@@ -5,7 +5,8 @@ import { Logger } from '../logging/logger';
 describe('Folder finder', () => {
 
   const fixtureBasePath = './ff-fixture';
-  const logger = Logger.getInstance();
+  const mock = jest.fn();
+  const logger = new mock() as Logger;
 
   beforeAll(() => {
     // Setup fixtures
