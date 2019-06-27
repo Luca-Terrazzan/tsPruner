@@ -8,6 +8,11 @@ import { MetadataNotFoundException, InvalidMetadataException } from './exception
 describe('Pruner metadata', () => {
 
   const fixtureBasePath = './pm-fixture';
+  const mock = jest.fn();
+  const logger = new mock() as Logger;
+  logger.error = () => {
+    // do nothing
+  };
 
   it('Should be able to read pruner metadata', () => {
     // Create a valid metadata file
@@ -19,7 +24,6 @@ describe('Pruner metadata', () => {
         ], "timestamp": 999}`
     );
 
-    const logger = Logger.getInstance();
     const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
     const metadata = pm.getFolderMetadata();
 
@@ -37,7 +41,6 @@ describe('Pruner metadata', () => {
   });
 
   it('Should be able handle missing config', () => {
-    const logger = Logger.getInstance();
     const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
 
     expect(() => pm.getFolderMetadata()).toThrow(MetadataNotFoundException);
@@ -52,7 +55,6 @@ describe('Pruner metadata', () => {
         {"fileName2": "file2.txt", "timestampss": 1001}
         ], "timestaamp": 999}`
     );
-    const logger = Logger.getInstance();
     const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
 
     expect(() => pm.getFolderMetadata()).toThrow(InvalidMetadataException);
