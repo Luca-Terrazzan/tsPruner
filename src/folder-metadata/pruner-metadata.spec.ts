@@ -56,6 +56,8 @@ describe('Pruner metadata', () => {
     const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
 
     expect(() => pm.getFolderMetadata()).toThrow(InvalidMetadataException);
+
+    removeSync(fixtureBasePath);
   });
 
 });
