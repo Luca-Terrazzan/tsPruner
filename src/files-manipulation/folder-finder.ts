@@ -1,5 +1,6 @@
 import { Logger } from '@logger/logger';
 import { Dirent, readdirSync } from 'fs-extra';
+import { FolderNotFoundException } from './exceptions';
 
 export class FolderFinder {
 
@@ -28,11 +29,16 @@ export class FolderFinder {
       folderContent = readdirSync(this.folderPath, { withFileTypes: true });
     } catch (e) {
       this.logger.error('error while reading folder: ', e);
+      throw new FolderNotFoundException();
     }
     // Filter and save folder contents
     this.folderContent = this.filterFolder(folderContent, skipFolders);
 
     return this.folderContent;
+  }
+
+  public getFolderPath(): string {
+    return this.folderPath;
   }
 
   private filterFolder(contents: Dirent[], skipFolders: boolean): string[] {

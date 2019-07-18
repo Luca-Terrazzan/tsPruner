@@ -11,16 +11,12 @@ export const metadataFileName: string = 'prune-metadata.json';
  */
 export class PrunerMetadata {
 
-  private readonly folderPath: string;
   private readonly folderMetadata: FolderMetadata;
 
   constructor(
-    folderPath: string,
     private readonly ffinder: FolderFinder,
     private readonly logger: Logger
-  ) {
-    this.folderPath = folderPath;
-  }
+  ) { }
 
   /**
    * Generate a metadata file for a list of files
@@ -39,20 +35,29 @@ export class PrunerMetadata {
   }
 
   private loadRawMetadata(): FolderMetadata {
+    if (!this.isMetadataFileExisting()) {
+      this.logger.error('Metadata file not found.');
+      throw new MetadataNotFoundException();
+    }
+
     let folderMetadata: FolderMetadata;
     try {
-      folderMetadata = readJsonSync(`${this.folderPath}/${metadataFileName}`) as FolderMetadata;
+      folderMetadata = readJsonSync(
+        `${this.ffinder.getFolderPath()}/${metadataFileName}`
+      ) as FolderMetadata;
     } catch (e) {
       if (e instanceof SyntaxError) {
         this.logger.error('Invalid metadata file found.');
         throw new InvalidMetadataException();
       }
-      this.logger.error('Metadata file not found.');
-      throw new MetadataNotFoundException();
     }
     this.validateMetadataFile(folderMetadata);
 
     return folderMetadata;
+  }
+
+  private isMetadataFileExisting() {
+    return this.ffinder.openFolder().includes(metadataFileName);
   }
 
   private validateMetadataFile(metadata: FolderMetadata): void {

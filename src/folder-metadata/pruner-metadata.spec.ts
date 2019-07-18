@@ -1,9 +1,10 @@
 import { FolderFinder } from '@finder/folder-finder';
 import { Logger } from '@logger/logger';
-import { outputFileSync, removeSync } from 'fs-extra';
+import { outputFileSync, removeSync, ensureDirSync } from 'fs-extra';
 import { InvalidMetadataException, MetadataNotFoundException } from './exceptions';
 import { FolderMetadata } from './folder-metadata.type';
 import { metadataFileName, PrunerMetadata } from './pruner-metadata';
+import { FolderNotFoundException } from '@finder/exceptions';
 
 describe('Pruner metadata', () => {
 
@@ -24,7 +25,7 @@ describe('Pruner metadata', () => {
         ], "timestamp": 999}`
     );
 
-    const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
+    const pm = new PrunerMetadata(new FolderFinder(logger, fixtureBasePath), logger);
     const metadata = pm.getFolderMetadata();
 
     const expectedFolderMetadata: FolderMetadata = {
@@ -41,9 +42,18 @@ describe('Pruner metadata', () => {
   });
 
   it('Should be able handle missing config', () => {
-    const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
+    ensureDirSync(fixtureBasePath);
+    const pm = new PrunerMetadata(new FolderFinder(logger, fixtureBasePath), logger);
 
     expect(() => pm.getFolderMetadata()).toThrow(MetadataNotFoundException);
+
+    removeSync(fixtureBasePath);
+  });
+
+  it('Should be able handle unexisting folders', () => {
+    const pm = new PrunerMetadata(new FolderFinder(logger, fixtureBasePath), logger);
+
+    expect(() => pm.getFolderMetadata()).toThrow(FolderNotFoundException);
   });
 
   it('Should be able handle malformed config', () => {
@@ -55,7 +65,7 @@ describe('Pruner metadata', () => {
         {"fileName2": "file2.txt", "timestampss": 1001}
         ], "timestaamp": 999}`
     );
-    const pm = new PrunerMetadata(`${fixtureBasePath}`, new FolderFinder(logger), logger);
+    const pm = new PrunerMetadata(new FolderFinder(logger, fixtureBasePath), logger);
 
     expect(() => pm.getFolderMetadata()).toThrow(InvalidMetadataException);
 
