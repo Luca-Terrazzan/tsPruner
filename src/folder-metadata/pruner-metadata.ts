@@ -11,7 +11,7 @@ export const metadataFileName: string = 'prune-metadata.json';
  */
 export class PrunerMetadata {
 
-  private readonly folderMetadata: FolderMetadata;
+  private folderMetadata: FolderMetadata;
 
   constructor(
     private readonly ffinder: FolderFinder,
@@ -31,7 +31,11 @@ export class PrunerMetadata {
    * Reads metadata from a folder
    */
   public getFolderMetadata(): FolderMetadata {
-    return this.loadRawMetadata();
+    if (!this.folderMetadata) {
+      this.folderMetadata = this.loadRawMetadata();
+    }
+
+    return this.folderMetadata;
   }
 
   private loadRawMetadata(): FolderMetadata {
