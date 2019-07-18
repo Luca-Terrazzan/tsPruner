@@ -6,6 +6,9 @@ import { FileMetadata, FolderMetadata } from './folder-metadata.type';
 
 export const metadataFileName: string = 'prune-metadata.json';
 
+/**
+ * A service to handle folder metadata creation and update
+ */
 export class PrunerMetadata {
 
   private readonly folderPath: string;
@@ -19,10 +22,18 @@ export class PrunerMetadata {
     this.folderPath = folderPath;
   }
 
+  /**
+   * Generate a metadata file for a list of files
+   *
+   * @param filesList The file list to put in the metadata
+   */
   public generateMetadata(filesList: string[]): boolean {
     return true;
   }
 
+  /**
+   * Reads metadata from a folder
+   */
   public getFolderMetadata(): FolderMetadata {
     return this.loadRawMetadata();
   }

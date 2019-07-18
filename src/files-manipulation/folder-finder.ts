@@ -5,6 +5,13 @@ export class FolderFinder {
 
   constructor(private readonly logger: Logger) { }
 
+  /**
+   * Opens a folder and returns a list of filenames inside it.
+   * Can skip subfolders.
+   *
+   * @param folderPath Path to folder to open
+   * @param skipFolders True to skip reading sub folders
+   */
   public openFolder(folderPath: string, skipFolders: boolean = false): string[] {
     // Contains a list of filenames contained in the folder
     let folderContent: Dirent[];
