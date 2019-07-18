@@ -3,7 +3,12 @@ import { Dirent, readdirSync } from 'fs-extra';
 
 export class FolderFinder {
 
-  constructor(private readonly logger: Logger) { }
+  private folderContent: string[];
+
+  constructor(
+    private readonly logger: Logger,
+    private readonly folderPath: string
+  ) { }
 
   /**
    * Opens a folder and returns a list of filenames inside it.
@@ -12,16 +17,22 @@ export class FolderFinder {
    * @param folderPath Path to folder to open
    * @param skipFolders True to skip reading sub folders
    */
-  public openFolder(folderPath: string, skipFolders: boolean = false): string[] {
+  public openFolder(skipFolders: boolean = false): string[] {
+    if (this.folderContent) {
+      return this.folderContent;
+    }
+
     // Contains a list of filenames contained in the folder
     let folderContent: Dirent[];
     try {
-      folderContent = readdirSync(folderPath, { withFileTypes: true });
+      folderContent = readdirSync(this.folderPath, { withFileTypes: true });
     } catch (e) {
       this.logger.error('error while reading folder: ', e);
     }
+    // Filter and save folder contents
+    this.folderContent = this.filterFolder(folderContent, skipFolders);
 
-    return this.filterFolder(folderContent, skipFolders);
+    return this.folderContent;
   }
 
   private filterFolder(contents: Dirent[], skipFolders: boolean): string[] {

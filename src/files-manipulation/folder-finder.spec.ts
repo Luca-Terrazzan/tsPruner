@@ -19,16 +19,16 @@ describe('Folder finder', () => {
   });
 
   it('Should be able to read a folder content', () => {
-    const ff: FolderFinder = new FolderFinder(logger);
-    const fileList: string[] = ff.openFolder(fixtureBasePath);
+    const ff: FolderFinder = new FolderFinder(logger, fixtureBasePath);
+    const fileList: string[] = ff.openFolder();
     const expectedResult = ['inner', 'test.txt', 'test1.txt', 'test2.txt'];
 
     expect(fileList).toEqual(expectedResult);
   });
 
   it('Should be able to read a folder content while skipping subfolders', () => {
-    const ff: FolderFinder = new FolderFinder(logger);
-    const fileList: string[] = ff.openFolder(fixtureBasePath, true);
+    const ff: FolderFinder = new FolderFinder(logger, fixtureBasePath);
+    const fileList: string[] = ff.openFolder(true);
     const expectedResult = ['test.txt', 'test1.txt', 'test2.txt'];
 
     expect(fileList).toEqual(expectedResult);
