@@ -1,10 +1,11 @@
 {
   "name": "tspruner",
   "version": "1.0.0",
-  "description": "Typescript folde files pruner",
+  "description": "Typescript folder files pruner",
   "main": "dist/main.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test-full": "jest --coverage"
   },
   "repository": {
     "type": "git",
