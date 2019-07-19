@@ -1,19 +1,19 @@
 import { FolderFinder } from '@finder/folder-finder';
-import { Logger } from '@logger/logger';
 import { outputFileSync, removeSync, ensureDirSync } from 'fs-extra';
 import { InvalidMetadataException, MetadataNotFoundException } from './exceptions';
 import { FolderMetadata } from './folder-metadata.type';
 import { metadataFileName, PrunerMetadata } from './pruner-metadata';
 import { FolderNotFoundException } from '@finder/exceptions';
+import { Logger } from '@logger/logger';
+
+// tslint:disable-next-line: no-any
+const mockedLogFunction = (...message: any[]): void => { return; };
+jest.mock('../logging/logger');
+mockedLogFunction.bind(Logger);
 
 describe('Pruner metadata', () => {
 
   const fixtureBasePath = './pm-fixture';
-  const mock = jest.fn();
-  const logger = new mock() as Logger;
-  logger.error = () => {
-    // do nothing
-  };
 
   it('Should be able to read pruner metadata', () => {
     // Create a valid metadata file
@@ -25,7 +25,7 @@ describe('Pruner metadata', () => {
         ], "timestamp": 999}`
     );
 
-    const pm = new PrunerMetadata(new FolderFinder(logger, fixtureBasePath), logger);
+    const pm = new PrunerMetadata(new FolderFinder(fixtureBasePath));
     const metadata = pm.getFolderMetadata();
 
     const expectedFolderMetadata: FolderMetadata = {
@@ -43,15 +43,15 @@ describe('Pruner metadata', () => {
 
   it('Should be able handle missing config', () => {
     ensureDirSync(fixtureBasePath);
-    const pm = new PrunerMetadata(new FolderFinder(logger, fixtureBasePath), logger);
+    const pm = new PrunerMetadata(new FolderFinder(fixtureBasePath));
 
     expect(() => pm.getFolderMetadata()).toThrow(MetadataNotFoundException);
 
     removeSync(fixtureBasePath);
   });
 
-  it('Should be able handle unexisting folders', () => {
-    const pm = new PrunerMetadata(new FolderFinder(logger, fixtureBasePath), logger);
+  it('Should be able handle nonexisting folders', () => {
+    const pm = new PrunerMetadata(new FolderFinder(fixtureBasePath));
 
     expect(() => pm.getFolderMetadata()).toThrow(FolderNotFoundException);
   });
@@ -65,7 +65,7 @@ describe('Pruner metadata', () => {
         {"fileName2": "file2.txt", "timestampss": 1001}
         ], "timestaamp": 999}`
     );
-    const pm = new PrunerMetadata(new FolderFinder(logger, fixtureBasePath), logger);
+    const pm = new PrunerMetadata(new FolderFinder(fixtureBasePath));
 
     expect(() => pm.getFolderMetadata()).toThrow(InvalidMetadataException);
 

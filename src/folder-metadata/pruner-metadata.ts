@@ -1,6 +1,7 @@
 import { FolderFinder } from '@finder/folder-finder';
 import { Logger } from '@logger/logger';
 import { readJsonSync } from 'fs-extra';
+
 import { InvalidMetadataException, MetadataNotFoundException } from './exceptions';
 import { FileMetadata, FolderMetadata } from './folder-metadata.type';
 
@@ -14,8 +15,7 @@ export class PrunerMetadata {
   private folderMetadata: FolderMetadata;
 
   constructor(
-    private readonly ffinder: FolderFinder,
-    private readonly logger: Logger
+    private readonly ffinder: FolderFinder
   ) { }
 
   /**
@@ -40,7 +40,7 @@ export class PrunerMetadata {
 
   private loadRawMetadata(): FolderMetadata {
     if (!this.isMetadataFileExisting()) {
-      this.logger.error('Metadata file not found.');
+      Logger.error('Metadata file not found.');
       throw new MetadataNotFoundException();
     }
 
@@ -51,7 +51,7 @@ export class PrunerMetadata {
       ) as FolderMetadata;
     } catch (e) {
       if (e instanceof SyntaxError) {
-        this.logger.error('Invalid metadata file found.');
+        Logger.error('Invalid metadata file found.');
         throw new InvalidMetadataException();
       }
     }

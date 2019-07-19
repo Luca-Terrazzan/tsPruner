@@ -3,31 +3,20 @@ import { LogLevels } from './log-levels.enum';
 // tslint:disable: no-any
 export class Logger {
 
-  private static instance: Logger;
-
-  private constructor() {}
-
-  public static getInstance(): Logger {
-    if (!Logger.instance) {
-      Logger.instance = new Logger();
-    }
-    return Logger.instance;
+  public static info(...message: any[]) {
+    Logger.log(LogLevels.INFO, message);
   }
 
-  public info(...message: any[]) {
-    this.log(LogLevels.INFO, message);
+  public static debug(...message: any[]) {
+    Logger.log(LogLevels.DEBUG, message);
   }
 
-  public debug(...message: any[]) {
-    this.log(LogLevels.DEBUG, message);
+  public static warning(...message: any[]) {
+    Logger.log(LogLevels.WARNING, message);
   }
 
-  public warning(...message: any[]) {
-    this.log(LogLevels.WARNING, message);
-  }
-
-  public error(...message: any[]) {
-    this.log(LogLevels.ERROR, message);
+  public static error(...message: any[]) {
+    Logger.log(LogLevels.ERROR, message);
   }
 
   /**
@@ -38,7 +27,7 @@ export class Logger {
    * @param {...any[]} message
    * @memberof Logger
    */
-  private log(logLevel: LogLevels, ...message: any[]) {
+  private static log(logLevel: LogLevels, ...message: any[]) {
     console.log(logLevel, message);
   }
 

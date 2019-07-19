@@ -7,7 +7,6 @@ export class FolderFinder {
   private folderContent: string[];
 
   constructor(
-    private readonly logger: Logger,
     private readonly folderPath: string
   ) { }
 
@@ -28,7 +27,7 @@ export class FolderFinder {
     try {
       folderContent = readdirSync(this.folderPath, { withFileTypes: true });
     } catch (e) {
-      this.logger.error('error while reading folder: ', e);
+      Logger.error('error while reading folder: ', e);
       throw new FolderNotFoundException();
     }
     // Filter and save folder contents
