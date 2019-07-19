@@ -77,10 +77,13 @@ export class PrunerMetadata {
     const folderMetadata: FolderMetadata = this.generateEmptyMetadata();
 
     for (const fileName of this.ffinder.openFolder()) {
-      folderMetadata.files.set(
-        fileName,
-        { fileName, timestamp: now }
-      );
+      // Save file in metadata but skip the metadata itself
+      if (fileName !== metadataFileName) {
+        folderMetadata.files.set(
+          fileName,
+          { fileName, timestamp: now }
+        );
+      }
     }
 
     return folderMetadata;
