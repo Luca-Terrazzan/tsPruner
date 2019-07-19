@@ -1,12 +1,9 @@
-import { Logger } from '@logger/logger';
 import { outputFileSync, removeSync } from 'fs-extra';
 import { FolderFinder } from './folder-finder';
 
 describe('Folder finder', () => {
 
   const fixtureBasePath = './ff-fixture';
-  const mock = jest.fn();
-  const logger = new mock() as Logger;
 
   beforeAll(() => {
     // Setup fixtures
@@ -19,7 +16,7 @@ describe('Folder finder', () => {
   });
 
   it('Should be able to read a folder content', () => {
-    const ff: FolderFinder = new FolderFinder(logger, fixtureBasePath);
+    const ff: FolderFinder = new FolderFinder(fixtureBasePath);
     const fileList: string[] = ff.openFolder();
     const expectedResult = ['inner', 'test.txt', 'test1.txt', 'test2.txt'];
 
@@ -27,7 +24,7 @@ describe('Folder finder', () => {
   });
 
   it('Should be able to read a folder content while skipping subfolders', () => {
-    const ff: FolderFinder = new FolderFinder(logger, fixtureBasePath);
+    const ff: FolderFinder = new FolderFinder(fixtureBasePath);
     const fileList: string[] = ff.openFolder(true);
     const expectedResult = ['test.txt', 'test1.txt', 'test2.txt'];
 
