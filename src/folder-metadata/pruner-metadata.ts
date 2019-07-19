@@ -16,7 +16,7 @@ export class PrunerMetadata {
     private readonly ffinder: FolderFinder
   ) { }
 
-    public generateFolderMetadata() {
+    public generateFolderMetadata(): void {
       // Load existing metadata, if any
       let existingFolderMetadata: FolderMetadata;
       try {
@@ -56,7 +56,15 @@ export class PrunerMetadata {
     }
 
     private saveMetadataFile(folderMetadata: FolderMetadata): void {
-      writeFileSync(`${this.ffinder.getFolderPath()}/${metadataFileName}`, folderMetadata);
+      // Maps cannot be json stringified, we need to convert everything to arrays
+      const mapVoidMetadata = {
+        files: Array.from(folderMetadata.files),
+        timestamp: folderMetadata.timestamp
+      };
+      writeFileSync(
+        `${this.ffinder.getFolderPath()}/${metadataFileName}`,
+        JSON.stringify(mapVoidMetadata)
+      );
     }
 
   /**
