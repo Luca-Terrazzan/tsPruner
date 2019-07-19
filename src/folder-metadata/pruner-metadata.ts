@@ -1,6 +1,6 @@
 import { FolderFinder } from '@finder/folder-finder';
 import { Logger } from '@logger/logger';
-import { readJsonSync } from 'fs-extra';
+import { readJsonSync, writeFileSync } from 'fs-extra';
 
 import { InvalidMetadataException, MetadataNotFoundException } from './exceptions';
 import { FileMetadata, FolderMetadata } from './folder-metadata.type';
@@ -12,30 +12,78 @@ export const metadataFileName: string = 'prune-metadata.json';
  */
 export class PrunerMetadata {
 
-  private folderMetadata: FolderMetadata;
-
   constructor(
     private readonly ffinder: FolderFinder
   ) { }
+
+    public generateFolderMetadata() {
+      // Load existing metadata, if any
+      let existingFolderMetadata: FolderMetadata;
+      try {
+        existingFolderMetadata = this.loadRawMetadata();
+      } catch (error) {
+        if (error instanceof MetadataNotFoundException) {
+          existingFolderMetadata = this.generateEmptyMetadata();
+        }
+      }
+
+      // Get metadata for current folder content
+      const currentFolderMetadata: FolderMetadata = this.generateMetadata();
+
+      // Update metadata file
+      const newMetadataFile: FolderMetadata =
+        this.updateMetadataFile(existingFolderMetadata, currentFolderMetadata);
+
+      // Save new metadata file if needed
+      this.saveMetadataFile(newMetadataFile);
+    }
+
+    private updateMetadataFile(oldMetadata: FolderMetadata, newMetadata: FolderMetadata): FolderMetadata {
+      for (const oldFileData of oldMetadata.files) {
+        // Get newest file metadata
+        const newFileData = newMetadata.files.get(oldFileData[0]);
+
+        // If there is no newer metadata the file is deleted, do nothing
+        if (!newFileData) {
+          continue;
+        }
+
+        // Else update the timestamp with the old one
+        newFileData.timestamp = oldFileData[1].timestamp;
+      }
+
+      return newMetadata;
+    }
+
+    private saveMetadataFile(folderMetadata: FolderMetadata): void {
+      writeFileSync(`${this.ffinder.getFolderPath()}/${metadataFileName}`, folderMetadata);
+    }
 
   /**
    * Generate a metadata file for a list of files
    *
    * @param filesList The file list to put in the metadata
    */
-  public generateMetadata(filesList: string[]): boolean {
-    return true;
-  }
+  private generateMetadata(): FolderMetadata {
+    const now = Date.now();
+    const folderMetadata: FolderMetadata = this.generateEmptyMetadata();
 
-  /**
-   * Reads metadata from a folder
-   */
-  public getFolderMetadata(): FolderMetadata {
-    if (!this.folderMetadata) {
-      this.folderMetadata = this.loadRawMetadata();
+    for (const fileName of this.ffinder.openFolder()) {
+      folderMetadata.files.set(
+        fileName,
+        { fileName, timestamp: now }
+        );
     }
 
-    return this.folderMetadata;
+    return folderMetadata;
+  }
+
+  private generateEmptyMetadata(): FolderMetadata {
+    const now = Date.now();
+    return {
+      files: new Map<string, FileMetadata>(),
+      timestamp: now
+    };
   }
 
   private loadRawMetadata(): FolderMetadata {
@@ -74,7 +122,7 @@ export class PrunerMetadata {
     if (!metadata.timestamp || !metadata.files) {
       return false;
     }
-    for (const fileMetadata of metadata.files) {
+    for (const fileMetadata of metadata.files.values()) {
       if (!this.validateSingleFileMetadata(fileMetadata)) {
         return false;
       }
