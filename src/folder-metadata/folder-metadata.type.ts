@@ -1,5 +1,5 @@
 export type FolderMetadata = {
-  files: FileMetadata[]
+  files: Map<string, FileMetadata>
   timestamp: number
 };
 
