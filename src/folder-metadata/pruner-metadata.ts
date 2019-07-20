@@ -24,6 +24,8 @@ export class PrunerMetadata {
     } catch (error) {
       if (error instanceof MetadataNotFoundException) {
         existingFolderMetadata = this.generateEmptyMetadata();
+      } else {
+        throw error;
       }
     }
 
@@ -97,6 +99,10 @@ export class PrunerMetadata {
     };
   }
 
+  /**
+   * @throws FolderNotFoundException
+   * @throws InvalidMetadataException
+   */
   private loadRawMetadata(): FolderMetadata {
     if (!this.isMetadataFileExisting()) {
       Logger.error('Metadata file not found.');
@@ -119,6 +125,9 @@ export class PrunerMetadata {
     return folderMetadata;
   }
 
+  /**
+   * @throws FolderNotFoundException
+   */
   private isMetadataFileExisting() {
     return this.ffinder.openFolder().includes(metadataFileName);
   }
