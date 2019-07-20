@@ -1,6 +1,12 @@
 import { outputFileSync, removeSync } from 'fs-extra';
 import { FolderFinder } from './folder-finder';
 import { FolderNotFoundException } from './exceptions';
+import { Logger } from '@logger/logger';
+
+// tslint:disable-next-line: no-any
+const mockedLogFunction = (...message: any[]): void => { return; };
+jest.mock('../logging/logger');
+mockedLogFunction.bind(Logger);
 
 describe('Folder finder', () => {
 
