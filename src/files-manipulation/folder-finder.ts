@@ -16,6 +16,8 @@ export class FolderFinder {
    *
    * @param folderPath Path to folder to open
    * @param skipFolders True to skip reading sub folders
+   *
+   * @throws FolderNotFoundException
    */
   public openFolder(skipFolders: boolean = false): string[] {
     if (this.folderContent) {

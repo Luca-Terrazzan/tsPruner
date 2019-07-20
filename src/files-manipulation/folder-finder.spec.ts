@@ -1,5 +1,6 @@
 import { outputFileSync, removeSync } from 'fs-extra';
 import { FolderFinder } from './folder-finder';
+import { FolderNotFoundException } from './exceptions';
 
 describe('Folder finder', () => {
 
@@ -29,6 +30,12 @@ describe('Folder finder', () => {
     const expectedResult = ['test.txt', 'test1.txt', 'test2.txt'];
 
     expect(fileList).toEqual(expectedResult);
+  });
+
+  it('Should be able to detect missing folders', () => {
+    const ff: FolderFinder = new FolderFinder('randomPath');
+
+    expect(() => ff.openFolder()).toThrow(FolderNotFoundException);
   });
 
   afterAll(() => {
