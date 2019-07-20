@@ -1,6 +1,5 @@
 import { FolderFinder } from '@finder/folder-finder';
 import { outputFileSync, removeSync, ensureDirSync, readFileSync, readJSONSync } from 'fs-extra';
-import { InvalidMetadataException, MetadataNotFoundException } from './exceptions';
 import { FolderMetadata } from './folder-metadata.type';
 import { metadataFileName, PrunerMetadata } from './pruner-metadata';
 import { Logger } from '@logger/logger';
@@ -26,32 +25,43 @@ describe('Pruner metadata', () => {
 
     const folderMetadata: FolderMetadata =
       readJSONSync(`${fixtureBasePath}/${metadataFileName}`) as FolderMetadata;
+
     expect(folderMetadata).toBeDefined();
     expect(folderMetadata.files).toHaveLength(3);
+    expect(folderMetadata.timestamp).toBeGreaterThan(1000);
+
+    removeSync(fixtureBasePath);
   });
 
   it('Should be able to overwrite folder metadata ', () => {
-    // Create a valid metadata file
+    // Create a valid metadata file for older files
     outputFileSync(
       `${fixtureBasePath}/${metadataFileName}`,
       `{"files": [
         {"fileName": "file1.txt", "timestamp": 1000},
-        {"fileName": "file2.txt", "timestamp": 1001}
+        {"fileName": "file2.txt", "timestamp": 1001},
+        {"fileName": "file22.txt", "timestamp": 1001},
+        {"fileName": "file233.txt", "timestamp": 1001},
+        {"fileName": "file4.txt", "timestamp": 1002}
         ], "timestamp": 999}`
     );
+
+    // Write some random files, two of these was already metadata'ed
+    ensureDirSync(fixtureBasePath);
+    outputFileSync(`${fixtureBasePath}/file1.txt`, { content: 1 });
+    outputFileSync(`${fixtureBasePath}/file2.txt`, { content: 2 });
+    outputFileSync(`${fixtureBasePath}/file3.txt`, { content: 3 });
 
     const pm = new PrunerMetadata(new FolderFinder(fixtureBasePath));
     pm.generateFolderMetadata();
 
-    // const expectedFolderMetadata: FolderMetadata = {
-    //   files: [
-    //     { fileName: 'file1.txt', timestamp: 1000 },
-    //     { fileName: 'file2.txt', timestamp: 1001 }
-    //   ],
-    //   timestamp: 999
-    // };
+    const folderMetadata: FolderMetadata =
+      readJSONSync(`${fixtureBasePath}/${metadataFileName}`) as FolderMetadata;
 
-    // expect(metadata).toEqual(expectedFolderMetadata);
+    expect(folderMetadata).toBeDefined();
+    expect(folderMetadata.files).toHaveLength(3);
+    // expect(folderMetadata.files[1].fileName).toBe('file2.txt');
+    expect(folderMetadata.timestamp).toBeGreaterThan(1000);
 
     removeSync(fixtureBasePath);
   });
