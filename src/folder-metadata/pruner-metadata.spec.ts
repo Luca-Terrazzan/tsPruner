@@ -1,8 +1,9 @@
 import { FolderFinder } from '@finder/folder-finder';
-import { outputFileSync, removeSync, ensureDirSync, readFileSync, readJSONSync } from 'fs-extra';
+import { outputFileSync, removeSync, ensureDirSync, readJSONSync } from 'fs-extra';
 import { FolderMetadata } from './folder-metadata.type';
 import { metadataFileName, PrunerMetadata } from './pruner-metadata';
 import { Logger } from '@logger/logger';
+import { InvalidMetadataException } from './exceptions';
 
 // tslint:disable-next-line: no-any
 const mockedLogFunction = (...message: any[]): void => { return; };
@@ -66,21 +67,6 @@ describe('Pruner metadata', () => {
     removeSync(fixtureBasePath);
   });
 
-  it('Should be able handle missing config', () => {
-    ensureDirSync(fixtureBasePath);
-    const pm = new PrunerMetadata(new FolderFinder(fixtureBasePath));
-
-    // expect(() => pm.getFolderMetadata()).toThrow(MetadataNotFoundException);
-
-    removeSync(fixtureBasePath);
-  });
-
-  it('Should be able handle nonexisting folders', () => {
-    const pm = new PrunerMetadata(new FolderFinder(fixtureBasePath));
-
-    // expect(() => pm.getFolderMetadata()).toThrow(FolderNotFoundException);
-  });
-
   it('Should be able handle malformed config', () => {
     // Create an invalid metadata file
     outputFileSync(
@@ -92,7 +78,7 @@ describe('Pruner metadata', () => {
     );
     const pm = new PrunerMetadata(new FolderFinder(fixtureBasePath));
 
-    // expect(() => pm.getFolderMetadata()).toThrow(InvalidMetadataException);
+    expect(() => pm.generateFolderMetadata()).toThrow(InvalidMetadataException);
 
     removeSync(fixtureBasePath);
   });
