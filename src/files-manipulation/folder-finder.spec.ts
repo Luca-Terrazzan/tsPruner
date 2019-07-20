@@ -1,7 +1,8 @@
-import { outputFileSync, removeSync } from 'fs-extra';
-import { FolderFinder } from './folder-finder';
-import { FolderNotFoundException } from './exceptions';
 import { Logger } from '@logger/logger';
+import { outputFileSync, removeSync } from 'fs-extra';
+
+import { FolderNotFoundException } from './exceptions';
+import { FolderFinder } from './folder-finder';
 
 // tslint:disable-next-line: no-any
 const mockedLogFunction = (...message: any[]): void => { return; };

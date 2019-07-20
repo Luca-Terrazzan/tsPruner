@@ -1,9 +1,10 @@
 import { FolderFinder } from '@finder/folder-finder';
-import { outputFileSync, removeSync, ensureDirSync, readJSONSync } from 'fs-extra';
+import { Logger } from '@logger/logger';
+import { ensureDirSync, outputFileSync, readJSONSync, removeSync } from 'fs-extra';
+
+import { InvalidMetadataException } from './exceptions';
 import { FolderMetadata } from './folder-metadata.type';
 import { metadataFileName, PrunerMetadata } from './pruner-metadata';
-import { Logger } from '@logger/logger';
-import { InvalidMetadataException } from './exceptions';
 
 // tslint:disable-next-line: no-any
 const mockedLogFunction = (...message: any[]): void => { return; };
