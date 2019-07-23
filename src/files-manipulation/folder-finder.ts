@@ -1,6 +1,6 @@
-import { Logger } from '@logger/logger';
 import { Dirent, readdirSync } from 'fs-extra';
 
+import { Logger } from '../logging/logger';
 import { FolderNotFoundException } from './exceptions';
 
 export class FolderFinder {

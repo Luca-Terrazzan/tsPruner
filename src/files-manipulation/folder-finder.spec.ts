@@ -1,6 +1,6 @@
-import { Logger } from '@logger/logger';
 import { outputFileSync, removeSync } from 'fs-extra';
 
+import { Logger } from '../logging/logger';
 import { FolderNotFoundException } from './exceptions';
 import { FolderFinder } from './folder-finder';
 

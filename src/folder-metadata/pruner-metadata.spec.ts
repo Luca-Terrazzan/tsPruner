@@ -1,7 +1,7 @@
-import { FolderFinder } from '@finder/folder-finder';
-import { Logger } from '@logger/logger';
 import { ensureDirSync, outputFileSync, readJSONSync, removeSync } from 'fs-extra';
 
+import { FolderFinder } from '../files-manipulation/folder-finder';
+import { Logger } from '../logging/logger';
 import { InvalidMetadataException } from './exceptions';
 import { FolderMetadata } from './folder-metadata.type';
 import { metadataFileName, PrunerMetadata } from './pruner-metadata';

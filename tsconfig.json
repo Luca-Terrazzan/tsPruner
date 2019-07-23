@@ -3,11 +3,6 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "downlevelIteration": true,
-    "paths": {
-      "@finder/*": ["files-manipulation/*"],
-      "@metadata/*": ["folder-metadata/*"],
-      "@logger/*": ["logging/*"],
-    },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

@@ -1,7 +1,7 @@
-import { FolderFinder } from '@finder/folder-finder';
-import { Logger } from '@logger/logger';
 import { readJsonSync, writeFileSync } from 'fs-extra';
 
+import { FolderFinder } from '../files-manipulation/folder-finder';
+import { Logger } from '../logging/logger';
 import { InvalidMetadataException, MetadataNotFoundException } from './exceptions';
 import { FileMetadata, FolderMetadata } from './folder-metadata.type';
 
