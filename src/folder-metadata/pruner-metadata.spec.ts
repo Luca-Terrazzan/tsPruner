@@ -40,11 +40,10 @@ describe('Pruner metadata', () => {
     outputFileSync(
       `${fixtureBasePath}/${metadataFileName}`,
       `{"files": [
-        {"fileName": "file1.txt", "timestamp": 1000},
-        {"fileName": "file2.txt", "timestamp": 1001},
-        {"fileName": "file22.txt", "timestamp": 1001},
-        {"fileName": "file233.txt", "timestamp": 1001},
-        {"fileName": "file4.txt", "timestamp": 1002}
+        ["file1.txt", {"fileName": "file1.txt", "timestamp": 1000}],
+        ["file2.txt", {"fileName": "file2.txt", "timestamp": 10020}],
+        ["file3.txt", {"fileName": "file3.txt", "timestamp": 10030}],
+        ["file4.txt", {"fileName": "file4.txt", "timestamp": 10010}]
         ], "timestamp": 999}`
     );
 
