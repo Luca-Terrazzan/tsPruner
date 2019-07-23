@@ -142,8 +142,8 @@ export class PrunerMetadata {
     if (!metadata.timestamp || !metadata.files) {
       return false;
     }
-    for (const fileMetadata of metadata.files.values()) {
-      if (!this.validateSingleFileMetadata(fileMetadata)) {
+    for (const fileMetadata of metadata.files) {
+      if (!this.validateSingleFileMetadata(fileMetadata[1])) {
         return false;
       }
     }
