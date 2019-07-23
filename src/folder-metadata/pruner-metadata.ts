@@ -115,12 +115,13 @@ export class PrunerMetadata {
         `${this.ffinder.getFolderPath()}/${metadataFileName}`
       ) as FolderMetadata;
     } catch (e) {
-      if (e instanceof SyntaxError) {
-        Logger.error('Invalid metadata file found.');
-        throw new InvalidMetadataException();
-      }
+      Logger.error('Invalid metadata file found.');
+      throw new InvalidMetadataException();
     }
-    this.validateMetadataFile(folderMetadata);
+
+    if (!this.validateMetadataFile(folderMetadata)) {
+      throw new InvalidMetadataException();
+    }
 
     return folderMetadata;
   }
@@ -132,13 +133,7 @@ export class PrunerMetadata {
     return this.ffinder.openFolder().includes(metadataFileName);
   }
 
-  private validateMetadataFile(metadata: FolderMetadata): void {
-    if (!this.determineIfIsValidMetadataFormat(metadata)) {
-      throw new InvalidMetadataException();
-    }
-  }
-
-  private determineIfIsValidMetadataFormat(metadata: FolderMetadata): metadata is FolderMetadata {
+  private validateMetadataFile(metadata: FolderMetadata): metadata is FolderMetadata {
     if (!metadata.timestamp || !metadata.files) {
       return false;
     }
