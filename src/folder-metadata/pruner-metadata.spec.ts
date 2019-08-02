@@ -3,7 +3,7 @@ import { ensureDirSync, outputFileSync, readJSONSync, removeSync } from 'fs-extr
 import { FolderFinder } from '../files-manipulation/folder-finder';
 import { Logger } from '../logging/logger';
 import { InvalidMetadataException } from './exceptions';
-import { FolderMetadata } from './folder-metadata.type';
+import { FolderMetadata, FileMetadata } from './folder-metadata.type';
 import { metadataFileName, PrunerMetadata } from './pruner-metadata';
 
 // tslint:disable-next-line: no-any
@@ -61,7 +61,7 @@ describe('Pruner metadata', () => {
 
     expect(folderMetadata).toBeDefined();
     expect(folderMetadata.files).toHaveLength(3);
-    // expect(folderMetadata.files[1].fileName).toBe('file2.txt');
+    expect((folderMetadata.files as unknown as Array<[string, FileMetadata]>)[1][1].fileName).toBe('file2.txt');
     expect(folderMetadata.timestamp).toBeGreaterThan(1000);
 
     removeSync(fixtureBasePath);
