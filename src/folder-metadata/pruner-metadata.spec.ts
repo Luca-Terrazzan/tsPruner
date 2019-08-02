@@ -15,6 +15,8 @@ describe('Pruner metadata', () => {
 
   const fixtureBasePath = './pm-fixture';
 
+  beforeEach(() => { removeSync(fixtureBasePath); });
+
   it('Should be able to generate a folder metadata from scratch', () => {
     // Write some random files
     ensureDirSync(fixtureBasePath);
