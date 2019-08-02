@@ -78,7 +78,7 @@ module.exports = {
   // A map from regular expressions to module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '^@finder/(.*)$': '<rootDir>/files-manipulation/$1',
-    '^@metadata/(.*)$': '<rootDir>/fodler-metadata/$1',
+    '^@metadata/(.*)$': '<rootDir>/folder-metadata/$1',
     '^@logger/(.*)$': '<rootDir>/logging/$1',
   },
 
