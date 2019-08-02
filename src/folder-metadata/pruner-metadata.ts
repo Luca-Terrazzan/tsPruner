@@ -12,11 +12,21 @@ export const metadataFileName: string = 'prune-metadata.json';
  */
 export class PrunerMetadata {
 
+  private folderMetadata: FolderMetadata;
+
   constructor(
     private readonly ffinder: FolderFinder
   ) { }
 
-  public generateFolderMetadata(): void {
+  public getMetadata() {
+    if (!this.folderMetadata) {
+      this.folderMetadata = this.generateFolderMetadata();
+    }
+
+    return this.folderMetadata;
+  }
+
+  public generateFolderMetadata(): FolderMetadata {
     // Load existing metadata, if any
     let existingFolderMetadata: FolderMetadata;
     try {
@@ -38,6 +48,8 @@ export class PrunerMetadata {
 
     // Save new metadata file if needed
     this.saveMetadataFile(newMetadataFile);
+
+    return newMetadataFile;
   }
 
   private updateMetadataFile(oldMetadata: FolderMetadata, newMetadata: FolderMetadata): FolderMetadata {
