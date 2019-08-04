@@ -2,7 +2,7 @@ import { FolderFinder } from './files-manipulation/folder-finder';
 import { PrunerMetadata } from './folder-metadata/pruner-metadata';
 import { Logger } from './logging/logger';
 
-function startPruning() {
+export function startPruning() {
   // Reading config
   const folderPath: string = './tempFolder';
 
@@ -15,8 +15,11 @@ function startPruning() {
   const prunerMetadata: PrunerMetadata = new PrunerMetadata(ffinder);
 
   Logger.info('Parsing metadata...');
-  prunerMetadata.generateFolderMetadata();
+  const folderMetdata = prunerMetadata.getMetadata();
+  Logger.debug('Folder metadata:', folderMetdata);
   Logger.info('...completed!');
+
+  return folderMetdata;
 }
 
-startPruning();
+// startPruning();
