@@ -1,10 +1,13 @@
 import { FolderFinder } from './files-manipulation/folder-finder';
 import { PrunerMetadata } from './folder-metadata/pruner-metadata';
 import { Logger } from './logging/logger';
+import { Config } from './files-manipulation/config';
 
 export function startPruning() {
   // Reading config
-  const folderPath: string = './tempFolder';
+  const configuration = new Config();
+  const folderPath: string = configuration.getPathToPrune();
+  Logger.debug('Configuration:', configuration);
 
   Logger.info('Starting application...');
 
