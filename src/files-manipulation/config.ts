@@ -5,7 +5,7 @@ type PrunerConfiguration = {
   path: string
 };
 
-const path = './../..';
+const path = './';
 
 export class Config {
   private readonly config: PrunerConfiguration;
