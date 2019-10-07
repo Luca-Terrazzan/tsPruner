@@ -15,7 +15,6 @@ export class FolderFinder {
    * Opens a folder and returns a list of filenames inside it.
    * Can skip subfolders.
    *
-   * @param folderPath Path to folder to open
    * @param skipFolders True to skip reading sub folders
    *
    * @throws FolderNotFoundException
