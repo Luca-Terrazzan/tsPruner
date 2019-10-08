@@ -95,7 +95,7 @@ export class PrunerMetadata {
       if (fileName !== metadataFileName) {
         folderMetadata.files.set(
           fileName,
-          { fileName, timestamp: now }
+          { fileName: `${this.ffinder.getFolderPath()}/${fileName}`, timestamp: now }
         );
       }
     }
