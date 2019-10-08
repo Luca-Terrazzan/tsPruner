@@ -1,4 +1,5 @@
 import { FolderMetadata } from 'folder-metadata/folder-metadata.type';
+
 import { startPruning } from './pruner';
 
 describe('Pruner', () => {

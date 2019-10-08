@@ -1,7 +1,7 @@
+import { Config } from './files-manipulation/config';
 import { FolderFinder } from './files-manipulation/folder-finder';
 import { PrunerMetadata } from './folder-metadata/pruner-metadata';
 import { Logger } from './logging/logger';
-import { Config } from './files-manipulation/config';
 
 export function startPruning() {
   // Reading config
